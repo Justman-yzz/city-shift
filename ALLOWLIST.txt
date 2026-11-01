@@ -1,0 +1,30 @@
+# CITY//SHIFT 공개 허용 목록 — 이 목록에 있는 파일만 공개 저장소에 올린다.
+# 파일을 추가하려면 이 목록에 먼저 적고 code/check_public.py 검사를 통과해야 한다.
+.gitignore
+ALLOWLIST.txt
+README.md
+BUILD_LOG.txt
+CHECK_RESULT.txt
+code/pub_common.py
+code/build_public_r1.py
+code/check_public.py
+code/evidence_map_public.csv
+data/catalog/facts.csv
+data/a/a_main_changes_top50.csv
+data/a/a_special_dates_top20.csv
+data/a/a_decreases_top20.csv
+data/a/a_event_station_components.csv
+data/a/a_event_hourly_obs_vs_baseline.csv
+data/a/a_citywide_days.csv
+data/b/b_event_daily.csv
+data/b/b_event_phase_summary.csv
+data/b/b_window_vs_day.csv
+data/b/b_yoy_comparison.csv
+data/b/b_known_event_days.json
+code/build_station_profiles.py
+data/catalog/special_days.csv
+data/station/stations.csv
+data/station/station_profile_hourly.csv
+data/station/station_profile_summary.csv
+site/index.html
+index.html

@@ -1,0 +1,90 @@
+공개 폴더 검사 결과: 전부 통과 (89/89)
+PASS | 허용 목록과 폴더 내용 일치 | 추가 [] 누락 []
+PASS | 금지 열 없음: code/evidence_map_public.csv | []
+PASS | 금지 열 없음: data/a/a_citywide_days.csv | []
+PASS | 금지 열 없음: data/a/a_decreases_top20.csv | []
+PASS | 금지 열 없음: data/a/a_event_hourly_obs_vs_baseline.csv | []
+PASS | 금지 열 없음: data/a/a_event_station_components.csv | []
+PASS | 금지 열 없음: data/a/a_main_changes_top50.csv | []
+PASS | 금지 열 없음: data/a/a_special_dates_top20.csv | []
+PASS | 금지 열 없음: data/b/b_event_daily.csv | []
+PASS | 금지 열 없음: data/b/b_event_phase_summary.csv | []
+PASS | 금지 열 없음: data/b/b_window_vs_day.csv | []
+PASS | 금지 열 없음: data/b/b_yoy_comparison.csv | []
+PASS | 금지 열 없음: data/catalog/facts.csv | []
+PASS | 금지 열 없음: data/catalog/special_days.csv | []
+PASS | 금지 열 없음: data/station/station_profile_hourly.csv | []
+PASS | 금지 열 없음: data/station/station_profile_summary.csv | []
+PASS | 금지 열 없음: data/station/stations.csv | []
+PASS | 금지 문자열 없음: .gitignore
+PASS | 키·개인정보·로컬 경로 없음: .gitignore
+PASS | 금지 문자열 없음: ALLOWLIST.txt
+PASS | 키·개인정보·로컬 경로 없음: ALLOWLIST.txt
+PASS | 금지 문자열 없음: BUILD_LOG.txt
+PASS | 키·개인정보·로컬 경로 없음: BUILD_LOG.txt
+PASS | 금지 문자열 없음: CHECK_RESULT.txt
+PASS | 키·개인정보·로컬 경로 없음: CHECK_RESULT.txt
+PASS | 금지 문자열 없음: README.md
+PASS | 키·개인정보·로컬 경로 없음: README.md
+PASS | 금지 문자열 없음: code/build_public_r1.py
+PASS | 키·개인정보·로컬 경로 없음: code/build_public_r1.py
+PASS | 금지 문자열 없음: code/build_station_profiles.py
+PASS | 키·개인정보·로컬 경로 없음: code/build_station_profiles.py
+PASS | 금지 문자열 없음: code/evidence_map_public.csv
+PASS | 키·개인정보·로컬 경로 없음: code/evidence_map_public.csv
+PASS | 금지 문자열 없음: code/pub_common.py
+PASS | 키·개인정보·로컬 경로 없음: code/pub_common.py
+PASS | 금지 문자열 없음: data/a/a_citywide_days.csv
+PASS | 키·개인정보·로컬 경로 없음: data/a/a_citywide_days.csv
+PASS | 금지 문자열 없음: data/a/a_decreases_top20.csv
+PASS | 키·개인정보·로컬 경로 없음: data/a/a_decreases_top20.csv
+PASS | 금지 문자열 없음: data/a/a_event_hourly_obs_vs_baseline.csv
+PASS | 키·개인정보·로컬 경로 없음: data/a/a_event_hourly_obs_vs_baseline.csv
+PASS | 금지 문자열 없음: data/a/a_event_station_components.csv
+PASS | 키·개인정보·로컬 경로 없음: data/a/a_event_station_components.csv
+PASS | 금지 문자열 없음: data/a/a_main_changes_top50.csv
+PASS | 키·개인정보·로컬 경로 없음: data/a/a_main_changes_top50.csv
+PASS | 금지 문자열 없음: data/a/a_special_dates_top20.csv
+PASS | 키·개인정보·로컬 경로 없음: data/a/a_special_dates_top20.csv
+PASS | 금지 문자열 없음: data/b/b_event_daily.csv
+PASS | 키·개인정보·로컬 경로 없음: data/b/b_event_daily.csv
+PASS | 금지 문자열 없음: data/b/b_event_phase_summary.csv
+PASS | 키·개인정보·로컬 경로 없음: data/b/b_event_phase_summary.csv
+PASS | 금지 문자열 없음: data/b/b_known_event_days.json
+PASS | 키·개인정보·로컬 경로 없음: data/b/b_known_event_days.json
+PASS | 금지 문자열 없음: data/b/b_window_vs_day.csv
+PASS | 키·개인정보·로컬 경로 없음: data/b/b_window_vs_day.csv
+PASS | 금지 문자열 없음: data/b/b_yoy_comparison.csv
+PASS | 키·개인정보·로컬 경로 없음: data/b/b_yoy_comparison.csv
+PASS | 금지 문자열 없음: data/catalog/facts.csv
+PASS | 키·개인정보·로컬 경로 없음: data/catalog/facts.csv
+PASS | 금지 문자열 없음: data/catalog/special_days.csv
+PASS | 키·개인정보·로컬 경로 없음: data/catalog/special_days.csv
+PASS | 금지 문자열 없음: data/station/station_profile_hourly.csv
+PASS | 키·개인정보·로컬 경로 없음: data/station/station_profile_hourly.csv
+PASS | 금지 문자열 없음: data/station/station_profile_summary.csv
+PASS | 키·개인정보·로컬 경로 없음: data/station/station_profile_summary.csv
+PASS | 금지 문자열 없음: data/station/stations.csv
+PASS | 키·개인정보·로컬 경로 없음: data/station/stations.csv
+PASS | 금지 문자열 없음: index.html
+PASS | 키·개인정보·로컬 경로 없음: index.html
+PASS | 금지 문자열 없음: site/index.html
+PASS | 키·개인정보·로컬 경로 없음: site/index.html
+PASS | 사직권 앵커 지역 사건 없음: a_main_changes_top50.csv
+PASS | 사건 합계 = 구성 역 합계: a_main_changes_top50.csv | 초과 인원 최대 차 4.5명
+PASS | 사직권 앵커 지역 사건 없음: a_special_dates_top20.csv
+PASS | 사건 합계 = 구성 역 합계: a_special_dates_top20.csv | 초과 인원 최대 차 5.0명
+PASS | 사직권 앵커 지역 사건 없음: a_decreases_top20.csv
+PASS | 사건 합계 = 구성 역 합계: a_decreases_top20.csv | 초과 인원 최대 차 0.5명
+PASS | 시간대별 관측 = 원본 CSV(전 행) | 20,448행
+PASS | 구성 역 사건 관측 = 원본 기반 시간대 셀 재구성(전 건) | 471건 중 불일치 0
+PASS | 역 프로필 하루 평균 = 원본 합계 열 재계산(112역×2) | 최대 차 0.050
+PASS | 역 프로필 집계 일수 = 원본 | 평일 421일·주말 163일
+PASS | 역 프로필 시간대 평균 = 원본 재계산(10,752행)
+PASS | 주말/평일 비율 = 원본 재계산(소수 셋째 자리 반올림 허용) | 최대 차 0.00068
+PASS | 정점 시간 = 원본 재계산
+PASS | B 일별 관측·평소·표본 수·판정 보류 = 원본 독립 재계산(전 행) | 586행 중 불일치 0
+PASS | 배포본 A 목록 내장값 = 공개 CSV(90건)
+PASS | 배포본 B 일별 내장값 = 공개 CSV
+PASS | 배포본 역 프로필 내장값 = 공개 CSV
+PASS | 배포본 내장 원천 아카이브 = 원본 CSV(3,429,888셀 전부)
