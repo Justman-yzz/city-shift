@@ -28,3 +28,20 @@ data/station/station_profile_hourly.csv
 data/station/station_profile_summary.csv
 site/index.html
 index.html
+# 문서 (2026-11-02 추가)
+CHANGELOG.md
+docs/ARCHITECTURE.md
+docs/DATA_AND_METHODS.md
+docs/USER_GUIDE.md
+docs/TEST_REPORT.md
+docs/PUBLIC_DATA_R1.md
+docs/images/a-change-detail.png
+docs/images/b-event-detail.png
+docs/images/clue.png
+docs/images/explore.png
+docs/images/home.png
+docs/images/mobile-explore.png
+docs/images/rivals.png
+docs/images/stations.png
+docs/images/story-door.png
+docs/images/story-scanner.png

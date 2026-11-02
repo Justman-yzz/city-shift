@@ -8,13 +8,16 @@
  4. 인증키·비밀정보·개인 경로 패턴
  5. 공개 목록에 사직권 7개 역 앵커 지역 사건이 없음
  6. 수치 정합성: 사건 합계 = 구성 역 사건 합계, 구성 역 관측 = 원본 CSV 재독 값(원본이 있을 때)
-결과: public/CHECK_RESULT.txt (하나라도 실패하면 종료 코드 1)
+ 7. 이미지(PNG): 허용 목록에 이름까지 적힌 docs/images/*.png 만 공개. 서명·청크 CRC·크기·청크 종류 검사,
+    위치 정보(eXIf) 등 허용 밖 청크 금지, 텍스트·출처증명(C2PA caBX) 메타데이터 안의 문자열도 금지 문자열·개인정보 검사
+결과: <공개 폴더>/CHECK_RESULT.txt (하나라도 실패하면 종료 코드 1)
+다른 폴더(예: 문서 통합 후보)를 검사하려면: python3 src/public/check_public.py <폴더 경로>
 """
-import re, sys, pathlib, io
+import re, sys, pathlib, io, zlib
 import numpy as np
 import pandas as pd
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-PUB = ROOT / "public"
+PUB = pathlib.Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "public"
 SELF = "code/check_public.py"
 R = []
 def chk(name, ok, detail=""):
@@ -35,8 +38,49 @@ for f in files:
         chk(f"금지 열 없음: {f}", not (cols & BAD_COLS), str(sorted(cols & BAD_COLS)))
 
 TERMS = re.compile(r"KBO|kbo|koreabaseball|관중|롯데|야구|우천|원정|sajik_game|game_cond|game_day|crowd|weather_daily|precip|경기(?!장)")
+# ---- PNG(문서 스크린샷) 검사 ----
+PNG_PATH = re.compile(r"^docs/images/[a-z0-9][a-z0-9-]*\.png$")
+PNG_CHUNKS = {b"IHDR", b"PLTE", b"IDAT", b"IEND", b"tRNS", b"sRGB", b"gAMA", b"pHYs", b"cHRM", b"bKGD", b"sBIT", b"iCCP"}
+PNG_META = {b"tEXt", b"zTXt", b"iTXt", b"caBX"}           # 문자열을 꺼내 아래 검사를 거침(caBX = C2PA 출처 증명)
+PNG_MAX_BYTES, PNG_MAX_TOTAL, PNG_MAX_W, PNG_MAX_H = 1_000_000, 5_000_000, 4000, 12000
+LEAK = re.compile(r"(?i)service_?key\s*=|DATA_GO_KR_KEY\s*=|authKey\s*=|[\w.+-]+@[\w-]+\.[a-z]{2,}|C:\\{1,2}Users|/home/|/mnt/|/root/")
+def png_check(b):
+    probs, texts, pos, seen = [], [], 8, []
+    if b[:8] != b"\x89PNG\r\n\x1a\n": return ["PNG 서명 아님"], []
+    while pos < len(b):
+        if pos + 12 > len(b): probs.append("잘린 청크"); break
+        ln = int.from_bytes(b[pos:pos + 4], "big"); typ = b[pos + 4:pos + 8]; data = b[pos + 8:pos + 8 + ln]; crc = b[pos + 8 + ln:pos + 12 + ln]
+        if len(data) != ln or len(crc) != 4: probs.append("잘린 청크"); break
+        if zlib.crc32(typ + data) & 0xFFFFFFFF != int.from_bytes(crc, "big"): probs.append(f"CRC 오류 {typ!r}")
+        seen.append(typ); pos += 12 + ln
+        if typ in PNG_META:
+            raw = data
+            if typ == b"zTXt": raw = data.split(b"\0", 1)[0] + b" " + zlib.decompress(data.split(b"\0", 1)[1][1:])
+            if typ == b"iTXt":
+                k, rest = data.split(b"\0", 1); comp = rest[0]; rest = rest[2:].split(b"\0", 2)[-1]
+                raw = k + b" " + (zlib.decompress(rest) if comp else rest)
+            texts += [x.decode("utf-8", "ignore") for x in re.findall(rb"[\x20-\x7e\x80-\xff]{4,}", raw)]
+        if typ == b"IEND": break
+    if pos != len(b): probs.append("IEND 뒤 덧붙은 데이터")
+    if not seen or seen[0] != b"IHDR": probs.append("IHDR이 처음이 아님")
+    if b"IEND" not in seen: probs.append("IEND 없음")
+    bad = sorted({t.decode("latin1") for t in seen if t not in PNG_CHUNKS | PNG_META})
+    if bad: probs.append(f"허용하지 않는 청크 {bad}")
+    if seen and seen[0] == b"IHDR":
+        w, h = int.from_bytes(b[16:20], "big"), int.from_bytes(b[20:24], "big")
+        if not (1 <= w <= PNG_MAX_W and 1 <= h <= PNG_MAX_H): probs.append(f"크기 범위 밖 {w}x{h}")
+    if len(b) > PNG_MAX_BYTES: probs.append(f"파일 크기 {len(b)}B > {PNG_MAX_BYTES}B")
+    return probs, texts
+png_total = 0
 SECRET = re.compile(r"(?i)service_?key\s*=|DATA_GO_KR_KEY\s*=|authKey\s*=|[A-Za-z0-9%+/]{60,}={0,2}|[\w.+-]+@[\w-]+\.[\w.]+|C:\\\\Users|/home/|/mnt/|/root/")
 for f in files:
+    if f.endswith(".png"):
+        if not PNG_PATH.match(f): chk(f"이미지는 docs/images/ 아래 소문자 이름만: {f}", False); continue
+        b = (PUB / f).read_bytes(); png_total += len(b); probs, texts = png_check(b)
+        chk(f"PNG 형식·청크·크기: {f}", not probs, "; ".join(probs))
+        meta = " ".join(texts); m = TERMS.findall(meta); s_ = LEAK.findall(meta)
+        chk(f"PNG 메타데이터 금지 문자열·개인정보 없음: {f}", not m and not s_, f"금지 {len(m)} · 개인정보 {len(s_)}" if (m or s_) else "")
+        continue
     if not re.search(r"(\.(csv|md|txt|py|json|html)|^\.gitignore)$", f): chk(f"텍스트 형식 파일만 공개: {f}", False); continue
     t = (PUB / f).read_text(encoding="utf-8-sig")
     if f.endswith(".html"):   # 내장 원천 아카이브(base64)는 문자열 검사에서 빼고 아래에서 값으로 검사
@@ -46,6 +90,8 @@ for f in files:
     if f == SELF: continue   # 검사 패턴 자체를 담은 파일
     s = [x for x in SECRET.findall(t) if x]
     chk(f"키·개인정보·로컬 경로 없음: {f}", not s, f"검출 {len(s)}건" if s else "")
+
+if png_total: chk("PNG 전체 크기", png_total <= PNG_MAX_TOTAL, f"{png_total}B (한도 {PNG_MAX_TOTAL}B)")
 
 STAD = {"거제", "동래", "만덕", "미남", "사직", "연산", "종합운동장"}
 A = PUB / "data" / "a"
